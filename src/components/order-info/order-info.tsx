@@ -67,8 +67,7 @@ export const OrderInfo: FC = () => {
   if (!orderInfo) {
     return <Preloader />;
   }
-
-  const isModal = location.state?.modal || false;
+  const isModal = location.state?.background;
 
   return <OrderInfoUI orderInfo={orderInfo} isModal={isModal} />;
 };
