@@ -6,7 +6,6 @@ import {
   getFeedsApi,
   getOrderByNumberApi
 } from '@api';
-import { stat } from 'fs';
 
 export const getOrder = createAsyncThunk('order/getOrders', getOrdersApi);
 

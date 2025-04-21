@@ -32,10 +32,10 @@ const burgerConstructorSlice = createSlice({
       })
     },
 
-    removeIngredient: (state, { payload }: PayloadAction<{ _id: string }>) => {
+    removeIngredient: (state, { payload }: PayloadAction<{ id: string }>) => {
       state.constructorItems.ingredients =
         state.constructorItems.ingredients.filter(
-          ({ _id }) => _id !== payload._id
+          ({ id }) => id !== payload.id
         );
     },
 
@@ -44,30 +44,16 @@ const burgerConstructorSlice = createSlice({
     },
 
     moveIngredientUp: (state, { payload }: PayloadAction<{ id: string }>) => {
-      const index = state.constructorItems.ingredients.findIndex(
-        (item) => item.id === payload.id
-      );
-      if (index > 0) {
-        const temp = state.constructorItems.ingredients[index - 1];
-        state.constructorItems.ingredients[index - 1] =
-          state.constructorItems.ingredients[index];
-        state.constructorItems.ingredients[index] = temp;
-      }
+      const items = state.constructorItems.ingredients;
+      const i = items.findIndex((item) => item.id === payload.id);
+      if (i > 0) [items[i - 1], items[i]] = [items[i], items[i - 1]];
     },
 
     moveIngredientDown: (state, { payload }: PayloadAction<{ id: string }>) => {
-      const index = state.constructorItems.ingredients.findIndex(
-        (item) => item.id === payload.id
-      );
-      if (
-        index < state.constructorItems.ingredients.length - 1 &&
-        index !== -1
-      ) {
-        const temp = state.constructorItems.ingredients[index + 1];
-        state.constructorItems.ingredients[index + 1] =
-          state.constructorItems.ingredients[index];
-        state.constructorItems.ingredients[index] = temp;
-      }
+      const items = state.constructorItems.ingredients;
+      const i = items.findIndex((item) => item.id === payload.id);
+      if (i !== -1 && i < items.length - 1)
+        [items[i], items[i + 1]] = [items[i + 1], items[i]];
     }
   }
 });

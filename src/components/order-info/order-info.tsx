@@ -1,14 +1,17 @@
 import { FC, useMemo, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { TIngredient } from '@utils-types';
 import { useSelector, useDispatch } from '../../services/store';
 import { getOrderByNumber } from '../../services/slices/orderSlice';
 
 export const OrderInfo: FC = () => {
-  let { number } = useParams();
-  const orderData = useSelector((state) => state.order.orderModalData);
+  const { number } = useParams();
+  const location = useLocation();
+  const orderData = useSelector(
+    (store) => store.order.orderModalData || store.order.order
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -65,5 +68,7 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  const isModal = location.state?.modal || false;
+
+  return <OrderInfoUI orderInfo={orderInfo} isModal={isModal} />;
 };

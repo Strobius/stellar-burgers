@@ -7,7 +7,6 @@ import { clearConstructor } from '../../services/slices/constructorSlice';
 import { orderClose, orderBurger } from '../../services/slices/orderSlice';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorItems = useSelector(
     (state) => state.burgerConstructor?.constructorItems
   );
@@ -16,7 +15,6 @@ export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
 
   const orderRequest = useSelector((store) => store.order.orderRequest);
-
   const orderModalData = useSelector((store) => store.order.orderModalData);
   const user = useSelector((store) => store.user.user);
 
@@ -34,12 +32,15 @@ export const BurgerConstructor: FC = () => {
         ),
         constructorItems.bun._id
       ])
-    );
+    ).then((action) => {
+      if (orderBurger.fulfilled.match(action)) {
+        dispatch(clearConstructor());
+      }
+    });
   };
 
   const closeOrderModal = () => {
     dispatch(orderClose());
-    dispatch(clearConstructor());
   };
 
   const price = useMemo(() => {
