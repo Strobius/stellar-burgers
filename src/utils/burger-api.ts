@@ -233,3 +233,5 @@ export const logoutApi = () =>
       token: localStorage.getItem('refreshToken')
     })
   }).then((res) => checkResponse<TServerResponse<{}>>(res));
+
+console.log('🔗 API URL:', process.env.BURGER_API_URL);

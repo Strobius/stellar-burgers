@@ -1,9 +1,22 @@
 .wrap {
-  margin: 0 auto;
+  margin: 0 auto ;
   width: 640px;
 }
-.number {
+
+.wrap.page {
+  margin-top: 130px;
+}
+
+.number_modal {
+  position: absolute;
+  top: 63px;
   text-align: center;
+}
+
+.number_page {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .status {
