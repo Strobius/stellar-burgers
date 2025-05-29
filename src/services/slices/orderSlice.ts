@@ -5,7 +5,7 @@ import {
   orderBurgerApi,
   getFeedsApi,
   getOrderByNumberApi
-} from '@api';
+} from '../../utils/burger-api';
 
 export const getOrder = createAsyncThunk('order/getOrders', getOrdersApi);
 
@@ -67,6 +67,9 @@ export const orderSlice = createSlice({
       .addCase(getOrder.fulfilled, (state, action) => {
         state.userOrders = action.payload;
       })
+      .addCase(getOrder.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
       .addCase(getFeed.pending, (state) => {
         state.error = null;
       })
@@ -82,6 +85,7 @@ export const orderSlice = createSlice({
       .addCase(orderBurger.fulfilled, (state, action) => {
         (state.orderRequest = false),
           (state.orderModalData = action.payload || null);
+        console.log(action.payload);
       })
       .addCase(orderBurger.rejected, (state, action) => {
         (state.orderRequest = false), (state.error = action.error.message);
