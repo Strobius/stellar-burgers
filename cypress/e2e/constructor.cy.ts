@@ -1,6 +1,6 @@
 const testUrl = 'http://localhost:4000';
 
-describe('Конструктор бургеров – UI и логика', () => {
+describe('Тест приложения', () => {
   beforeEach(() => {
     cy.visit(testUrl);
     cy.setCookie('accessToken', 'test-token');
