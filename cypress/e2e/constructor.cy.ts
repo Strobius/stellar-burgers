@@ -2,12 +2,14 @@ const testUrl = 'http://localhost:4000';
 
 describe('Тест приложения', () => {
   beforeEach(() => {
-    cy.visit(testUrl);
     cy.setCookie('accessToken', 'test-token');
     localStorage.setItem('refreshToken', 'test-refresh');
     
     cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients');
+    cy.intercept('GET', '/api/auth/user', { fixture: 'user.json' }).as('getUser');
     
+    cy.visit(testUrl);
+    cy.wait('@getUser')
     cy.wait('@getIngredients');
   });
 

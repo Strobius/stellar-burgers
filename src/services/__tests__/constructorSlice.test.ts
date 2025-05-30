@@ -2,7 +2,8 @@ import { burgerConstructorReducer } from '../slices/constructorSlice';
 import {
   addIngredient,
   removeIngredient,
-  clearConstructor
+  clearConstructor, 
+  initialState
 } from '../slices/constructorSlice';
 import { TIngredient } from '@utils-types';
 
@@ -35,11 +36,6 @@ describe('Тесты для burgerConstructorSlice', () => {
     image_large: 'image_large'
   };
 
-  const initialState = {
-    constructorItems: { bun: null, ingredients: [] },
-    isLoading: false,
-    error: null
-  };
 
   it('должен корректно обрабатывать начальное состояние', () => {
     expect(burgerConstructorReducer(undefined, { type: '' })).toEqual(
