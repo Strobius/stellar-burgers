@@ -13,6 +13,14 @@ import {
   updateUser
 } from '../slices/userSlice';
 
+// Константы для тестов
+const mockUser = { name: 'Тест', email: 'test@test.com' };
+const mockError = 'Ошибка';
+const stateWithUser = {
+  ...initialState,
+  user: mockUser as any
+};
+
 describe('Тест редьюсера userSlice', () => {
   it('Тест начального состояния', () => {
     const result = userReducer(undefined, { type: 'UNKNOWN_ACTION' });
@@ -21,9 +29,8 @@ describe('Тест редьюсера userSlice', () => {
 
   describe('Тест метода setUser', () => {
     it('Тест успешного выполнения', () => {
-      const user = { name: 'Тест', email: 'test@test.com' };
-      const state = userReducer(initialState, setUser(user as any));
-      expect(state.user).toEqual(user);
+      const state = userReducer(initialState, setUser(mockUser as any));
+      expect(state.user).toEqual(mockUser);
     });
   });
 
@@ -45,24 +52,22 @@ describe('Тест редьюсера userSlice', () => {
     });
 
     it('Тест состояния fulfilled', () => {
-      const user = { name: 'Тест', email: 'test@test.com' };
       const action = {
         type: registerUser.fulfilled.type,
-        payload: { user }
+        payload: { user: mockUser }
       };
       const state = userReducer(initialState, action);
-      expect(state.user).toEqual(user);
+      expect(state.user).toEqual(mockUser);
       expect(state.isAuthChecked).toBe(true);
     });
 
     it('Тест состояния rejected', () => {
-      const error = 'Ошибка регистрации';
       const action = {
         type: registerUser.rejected.type,
-        payload: error
+        payload: mockError
       };
       const state = userReducer(initialState, action);
-      expect(state.error).toBe(error);
+      expect(state.error).toBe(mockError);
       expect(state.isAuthChecked).toBe(false);
     });
   });
@@ -78,49 +83,43 @@ describe('Тест редьюсера userSlice', () => {
     });
 
     it('Тест состояния fulfilled', () => {
-      const user = { name: 'Тест', email: 'test@test.com' };
       const action = {
         type: loginUser.fulfilled.type,
-        payload: { user }
+        payload: { user: mockUser }
       };
       const state = userReducer(initialState, action);
-      expect(state.user).toEqual(user);
+      expect(state.user).toEqual(mockUser);
       expect(state.isAuthChecked).toBe(true);
     });
 
     it('Тест состояния rejected', () => {
-      const error = 'Ошибка входа';
       const action = {
         type: loginUser.rejected.type,
-        payload: error
+        payload: mockError
       };
       const state = userReducer(initialState, action);
-      expect(state.error).toBe(error);
+      expect(state.error).toBe(mockError);
     });
   });
 
   describe('Тест метода logoutUser', () => {
     it('Тест состояния fulfilled', () => {
-      const stateWithUser = {
-        ...initialState,
-        user: { name: 'Тест', email: 'test@test.com' } as any
-      };
       const action = logoutUser.fulfilled(undefined, '', undefined);
       const state = userReducer(stateWithUser, action);
       expect(state.user).toBeNull();
     });
 
     it('Тест состояния rejected', () => {
-      const error = new Error('Ошибка выхода');
+      const error = new Error(mockError);
       const action = logoutUser.rejected(error, '', undefined, error);
       const state = userReducer(initialState, action);
-      expect(state.error).toBe(error.message);
+      expect(state.error).toBe(mockError);
     });
   });
 
   describe('Тест метода forgotPassword', () => {
     it('Тест состояния pending', () => {
-      const stateWithError = { ...initialState, error: 'Какая-то ошибка' };
+      const stateWithError = { ...initialState, error: mockError };
       const state = userReducer(
         stateWithError,
         forgotPassword.pending('pending', {} as any)
@@ -129,19 +128,18 @@ describe('Тест редьюсера userSlice', () => {
     });
 
     it('Тест состояния rejected', () => {
-      const error = 'Ошибка восстановления пароля';
       const action = {
         type: forgotPassword.rejected.type,
-        payload: error
+        payload: mockError
       };
       const state = userReducer(initialState, action);
-      expect(state.error).toBe(error);
+      expect(state.error).toBe(mockError);
     });
   });
 
   describe('Тест метода resetPassword', () => {
     it('Тест состояния pending', () => {
-      const stateWithError = { ...initialState, error: 'Какая-то ошибка' };
+      const stateWithError = { ...initialState, error: mockError };
       const state = userReducer(
         stateWithError,
         resetPassword.pending('pending', {} as any)
@@ -150,35 +148,35 @@ describe('Тест редьюсера userSlice', () => {
     });
 
     it('Тест состояния rejected', () => {
-      const error = 'Ошибка сброса пароля';
       const action = {
         type: resetPassword.rejected.type,
-        payload: error
+        payload: mockError
       };
       const state = userReducer(initialState, action);
-      expect(state.error).toBe(error);
+      expect(state.error).toBe(mockError);
     });
   });
 
   describe('Тест метода updateUser', () => {
+    const updatedUser = { name: 'Обновленный', email: 'updated@test.com' };
+
     it('Тест состояния fulfilled', () => {
-      const user = { name: 'Обновленный', email: 'updated@test.com' };
       const action = {
         type: updateUser.fulfilled.type,
-        payload: user
+        payload: updatedUser
       };
       const state = userReducer(initialState, action);
-      expect(state.user).toEqual(user);
+      expect(state.user).toEqual(updatedUser);
     });
 
     it('Тест состояния rejected', () => {
-      const error = new Error('Ошибка обновления');
+      const error = new Error(mockError);
       const action = {
         type: updateUser.rejected.type,
         error: { message: error.message }
       };
       const state = userReducer(initialState, action);
-      expect(state.error).toBe(error.message);
+      expect(state.error).toBe(mockError);
     });
   });
 });

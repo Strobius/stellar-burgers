@@ -19,26 +19,28 @@ describe('Тест приложения', () => {
   });
 
   describe('Работа модального окна ингредиента', () => {
-    beforeEach(() => {
-      cy.get('[data-cy="ingredients"]').find('li').first().click();
-      cy.get('[data-cy="modal"]').should('be.visible');
-    });
-
-    it('Модальное окно закрывается при нажатии на крестик', () => {
-      cy.get('[data-cy="closeButton"]').click();
-      cy.get('[data-cy="modal"]').should('not.exist');
-    });
-
-    it('Модальное окно закрывается при клике на оверлей', () => {
-      cy.get('[data-cy="overlay"]').click({ force: true });
-      cy.get('[data-cy="modal"]').should('not.exist');
-    });
-
-    it('Модальное окно закрывается при нажатии Escape', () => {
-      cy.document().trigger('keydown', { key: 'Escape' });
-      cy.get('[data-cy="modal"]').should('not.exist');
-    });
+  const modalShouldNotExist = () => cy.get('[data-cy="modal"]').should('not.exist');
+  
+  beforeEach(() => {
+    cy.get('[data-cy="ingredients"]').find('li').first().click();
+    cy.get('[data-cy="modal"]').should('be.visible');
   });
+
+  it('Модальное окно закрывается при нажатии на крестик', () => {
+    cy.get('[data-cy="closeButton"]').click();
+    modalShouldNotExist();
+  });
+
+  it('Модальное окно закрывается при клике на оверлей', () => {
+    cy.get('[data-cy="overlay"]').click({ force: true });
+    modalShouldNotExist();
+  });
+
+  it('Модальное окно закрывается при нажатии Escape', () => {
+    cy.document().trigger('keydown', { key: 'Escape' });
+    modalShouldNotExist();
+  });
+});
 
   describe('тест на добавление ингредиентов в конструктор', () => {
     it('добавляем игредиенты', () => {

@@ -7,14 +7,18 @@ import {
   orderBurger
 } from '../slices/orderSlice';
 
+const mockFeed = {
+  orders: [{ id: 1 }, { id: 2 }],
+  total: 100,
+  totalToday: 2
+};
+
+const mockOrders = [{ id: 1 }, { id: 2 }];
+const mockOrder = { id: 1, number: 123 };
+const mockError = 'error';
+
 describe('Тест orderSlice', () => {
   describe('Тест getFeed', () => {
-    const mockFeed = {
-      orders: [{ id: 1 }, { id: 2 }],
-      total: 100,
-      totalToday: 2
-    };
-
     test('Тест pending', () => {
       const state = orderSlice.reducer(
         initialState,
@@ -26,10 +30,10 @@ describe('Тест orderSlice', () => {
     test('Тест rejected', () => {
       const action = {
         type: getFeed.rejected.type,
-        error: { message: 'error' }
+        error: { message: mockError }
       };
       const state = orderSlice.reducer(initialState, action);
-      expect(state.error).toBe('error');
+      expect(state.error).toBe(mockError);
     });
 
     test('Тест fulfilled', () => {
@@ -43,8 +47,6 @@ describe('Тест orderSlice', () => {
   });
 
   describe('Тест getOrder', () => {
-    const mockOrders = [{ id: 1 }, { id: 2 }];
-
     test('Тест pending', () => {
       const state = orderSlice.reducer(
         initialState,
@@ -56,10 +58,10 @@ describe('Тест orderSlice', () => {
     test('Тест rejected', () => {
       const action = {
         type: getOrder.rejected.type,
-        error: { message: 'error' }
+        error: { message: mockError }
       };
       const state = orderSlice.reducer(initialState, action);
-      expect(state.error).toBe('error');
+      expect(state.error).toBe(mockError);
     });
 
     test('Тест fulfilled', () => {
@@ -73,15 +75,13 @@ describe('Тест orderSlice', () => {
   });
 
   describe('Тест getOrderByNumber', () => {
-    const mockOrder = { id: 1, number: 123 };
-
     test('Тест rejected', () => {
       const action = {
         type: getOrderByNumber.rejected.type,
-        error: { message: 'error' }
+        error: { message: mockError }
       };
       const state = orderSlice.reducer(initialState, action);
-      expect(state.error).toBe('error');
+      expect(state.error).toBe(mockError);
     });
 
     test('Тест fulfilled', () => {
@@ -96,26 +96,26 @@ describe('Тест orderSlice', () => {
   });
 
   describe('Тест orderBurger', () => {
-    const mockOrder = { number: 123 };
+    const mockOrderNumber = { number: 123 };
 
     test('Тест rejected', () => {
       const action = {
         type: orderBurger.rejected.type,
-        error: { message: 'error' }
+        error: { message: mockError }
       };
       const state = orderSlice.reducer(initialState, action);
       expect(state.orderRequest).toBe(false);
-      expect(state.error).toBe('error');
+      expect(state.error).toBe(mockError);
     });
 
     test('Тест fulfilled', () => {
       const action = {
         type: orderBurger.fulfilled.type,
-        payload: mockOrder
+        payload: mockOrderNumber
       };
       const state = orderSlice.reducer(initialState, action);
       expect(state.orderRequest).toBe(false);
-      expect(state.orderModalData?.number).toBe(mockOrder.number);
+      expect(state.orderModalData?.number).toBe(mockOrderNumber.number);
     });
   });
 });
