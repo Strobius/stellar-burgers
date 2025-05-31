@@ -8,20 +8,6 @@
   align-self: center;
 }
 
-/* .title {
-  text-align: center;
-  width: 100%;
-}
-
-.modal .content {
-  text-align: left;
-  align-items: flex-start;
-}
-
-.modal .title {
-  text-align: left;
-} */
-
 .nutritional_values {
   display: flex;
   justify-content: space-between;

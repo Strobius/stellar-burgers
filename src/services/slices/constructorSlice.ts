@@ -10,7 +10,7 @@ interface TConstructorState {
   error: string | null;
 }
 
-const initialState: TConstructorState = {
+export const initialState: TConstructorState = {
   constructorItems: { bun: null, ingredients: [] },
   isLoading: false,
   error: null
